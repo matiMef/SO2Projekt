@@ -8,8 +8,8 @@
 #include <atomic>
 
 //consant values
-constexpr int NUM_PHILOSOPHERS = 100;
-constexpr int NUM_PERMITS = (NUM_PHILOSOPHERS % 2 == 0) ? (NUM_PHILOSOPHERS / 2) : (NUM_PHILOSOPHERS / 2 - 1);
+constexpr int NUM_PHILOSOPHERS = 30;
+constexpr int NUM_PERMITS = (NUM_PHILOSOPHERS % 2 == 0) ? (NUM_PHILOSOPHERS / 2) : (NUM_PHILOSOPHERS / 2 + 1);
 
 std::atomic<bool> running = true;
 
@@ -68,7 +68,7 @@ bool acquire_forks(int id) {
 
 //put_fork is used to put forks back on the table
 //after eathing philosophers start to think
-void put_fork(int id) {
+void put_forks(int id) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> think_time(1, 15);
@@ -127,7 +127,7 @@ void philosopher(int id) {
 		//if philosopher can acquire forks they eat and then put forks back on the table
         result = acquire_forks(id);
         if (result) {
-            put_fork(id);
+            put_forks(id);
         }
     }
 }
